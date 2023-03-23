@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html>
+   
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +10,73 @@
 
         <title>{% block title %}{% endblock %} | ecomm</title>
     </head>
-
     <body>
-        <nav class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
-            <a href="/" class="text-xl font-semibold">ecomm</a>
+        
+        <nav class="py-2 px-2  justify-between items-center border-b border-gray-200 dark:bg-gray-900">
+			<div class="max-w-6xl mx-auto px-4">
+				<div class="flex justify-between">
+                    <div class="container flex flex-wrap items-center justify-between mx-auto">
+                        <a href="/" class="flex items-center">
+                            <img src="https://raw.githubusercontent.com/yashbhangale/ecomm-django/88eb2555e03fedde3b199c8af1e75073c2af5b69/Untitled%20(64%20%C3%97%2064px).svg?token=AQODJOL4LBIBIWQEHEJQESLEDPS46" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo">
+                            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Ecomm</span>
+                        </a>
+					<div class="flex space-x-7">
+						<!-- Primary Navbar items -->
+						<div class="hidden md:flex items-center space-x-1">
+							<a href="/" class="py-4 px-2 text-blue-500 border-b-4 border-pink-500 font-semibold ">Home</a>
+							<a href="{% url 'item:new' %}" class="py-4 px-2 text-white font-semibold hover:text-pink-500 transition duration-300">New items</a>
+							<a href="{% url 'item:items' %}" class="py-4 px-2 text-white font-semibold hover:text-pink-500 transition duration-300">Browse</a>
+							<a href="#" class="py-4 px-2 text-white font-semibold hover:text-pink-500 transition duration-300">Contact Us</a>
+						</div>
+					</div>
+					<!-- Secondary Navbar items -->
+					<div class="flex items-center space-x-7">
+						{% if request.user.is_authenticated %}
+                    <a href="{% url 'conversation:inbox' %}" class="px-2 py-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">Inbox</a>
+                    <a href="{% url 'dashboard:index' %}" class="px-2 py-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">Dashboard</a>
+                    {% else %}
+                    <a href="{% url 'core:signup' %}" class="px-2 py-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">Sign up</a>
+                    <a href="{% url 'core:login' %}" class="px-2 py-2  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">Log in</a>
+                        {% endif %}
+					</div>
+					<!-- Mobile menu button -->
+					<div class="md:hidden flex items-center">
+						<button class="outline-none mobile-menu-button">
+						<svg class=" w-6 h-6 text-gray-500 hover:text-blue-500 "
+							x-show="!showMenu"
+							fill="none"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path d="M4 6h16M4 12h16M4 18h16"></path>
+						</svg>
+					</button>
+					</div>
+				</div>
+			</div>
+			<!-- mobile menu -->
+			<div class="hidden mobile-menu">
+				<ul class="">
+					<li class="active"><a href="index.html" class="block text-sm px-2 py-4 text-white bg-blue-500 font-semibold">Home</a></li>
+					<li><a href="#services" class="block text-sm px-2 py-4 hover:bg-blue-500 transition text-white duration-300">Services</a></li>
+					<li><a href="#about" class="block text-sm px-2 py-4 hover:bg-blue-500 transition text-white duration-300">About</a></li>
+					<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-blue-500 transition text-white duration-300">Contact Us</a></li>
+				</ul>
+			</div>
+			<script>
+				const btn = document.querySelector("button.mobile-menu-button");
+				const menu = document.querySelector(".mobile-menu");
 
-            <div class="space-x-6">
-                <a href="{% url 'item:new' %}" class="text-lg font-semibold hover:text-gray-500">New item</a>
-                <a href="{% url 'item:items' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
+				btn.addEventListener("click", () => {
+					menu.classList.toggle("hidden");
+				});
+			</script>
+		</nav>
 
-                {% if request.user.is_authenticated %}
-                    <a href="{% url 'dashboard:index' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Dashboard</a>
-                {% else %}
-                    <a href="{% url 'core:signup' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Sign up</a>
-                    <a href="{% url 'core:login' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log in</a>
-                {% endif %}
-            </div>
-        </nav>
+  
 
         <div class="px-6 py-6">
             {% block content %}
@@ -50,5 +101,6 @@
                 </ul>
             </div>
         </footer>
+
     </body>
 </html>
